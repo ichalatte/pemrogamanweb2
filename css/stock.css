@@ -1,0 +1,195 @@
+@import url('https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&family=Montserrat:wght@400;600;700&display=swap');
+
+body {
+  font-family: 'Lato', sans-serif;
+  background: linear-gradient(#eee, #ddd);
+  margin: 0;
+  min-height: 100vh;
+  flex-direction: column;
+  padding: 2rem;
+}
+
+h1 {
+  color: #333;
+  margin-bottom: 2rem;
+  font-family: 'Montserrat', sans-serif;
+  text-align: center;
+}
+
+.wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+  justify-content: center;
+}
+
+.form-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 20px 0;
+}
+
+.form-container input {
+  padding: 10px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  flex: 1 1 200px;
+}
+
+
+.card {
+  background: #fff;
+  border-radius: 1.5rem;
+  width: 25rem;
+  height: 30rem;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  position: relative;
+}
+
+.card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 8px 16px rgba(0,0,0,0.15);
+}
+
+.card img {
+  width: 100%;
+  aspect-ratio: 2 / 3;
+  object-fit: cover;
+  transition: transform 0.4s ease;
+}
+
+.card:hover img {
+  transform: scale(1.05) translateY(-10%);
+}
+
+.card section {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  background: linear-gradient(0deg, #fff 80%, transparent);
+  padding: 1rem;
+  transition: transform 0.4s ease;
+  transform: translateY(40%);
+  padding: 10px;
+}
+
+.card:hover section {
+  transform: translateY(0%);
+}
+
+.card h2 {
+  margin: 0 0 0.5rem 0;
+  font-size: 1.2rem;
+  color: #000;
+}
+
+.card p {
+  font-size: 0.9rem;
+  color: #555;
+  margin: 0.3rem 0;
+}
+
+.info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 0.5rem;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.card:hover .info {
+  opacity: 1;
+}
+
+.tag {
+  color: #000;
+  font-size: 0.9rem;
+}
+
+button {
+  border: none;
+  border-radius: 1.25rem 1.25rem 1.5rem 1.25rem;
+  font-size: 1rem;
+  padding: 0.6rem 1.5rem 0.6rem 1.5rem;
+  background: plum;
+  color: #333;
+  position: relative;
+  cursor: pointer;
+  transition: background 0.3s ease, transform 0.2s ease;
+  margin-right: 1rem;
+}
+
+button:hover {
+  background: peachpuff;
+  transform: scale(1.05);
+}
+
+/* TABLE STYLING */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 25px;
+  background: #fff;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  font-family: 'Lato', sans-serif;
+}
+
+thead {
+  background: #4a4a8a;
+  color: #fff;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 600;
+}
+
+thead th {
+  padding: 14px 10px;
+  text-align: center;
+  letter-spacing: .5px;
+}
+
+tbody td {
+  padding: 12px 10px;
+  border-bottom: 1px solid #eee;
+  text-align: center;
+  font-size: 0.95rem;
+  color: #333;
+}
+
+/* row hover */
+tbody tr:hover {
+  background: #f5f5ff;
+  transition: background .3s ease;
+}
+
+/* kolom aksi tombol */
+tbody button {
+  background-color: #d62828;
+  color: white;
+  border: none;
+  padding: 7px 14px;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: .2s ease;
+}
+
+tbody button:hover {
+  background-color: #f05454;
+  transform: scale(1.05);
+}
+
+/* responsive mode */
+@media (max-width: 768px) {
+  table {
+    font-size: 0.85rem;
+  }
+  thead th, tbody td {
+    padding: 10px 6px;
+  }
+}

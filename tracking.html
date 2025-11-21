@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sistem Tracking Paket</title>
+  <link rel="stylesheet" href="css/tracking.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap">
+</head>
+<body>
+<div class="container">
+    <div id="homeBtn" 
+     style="display:inline-flex; align-items:center; gap:6px; 
+            background-color:darkblue; color:white; 
+            padding:8px 14px; border-radius:8px; 
+            cursor:pointer; font-weight:500; 
+            font-family:Arial, sans-serif; 
+            box-shadow:0 2px 6px rgba(0,0,0,0.15); 
+            transition:background 0.3s; margin-right:10px;">
+  <span style="font-size:18px;">🏠</span>
+  <span>Home</span>
+</div>
+
+<div id="logoutBtn" 
+     style="display:inline-flex; align-items:center; gap:6px; 
+            background-color:darkred; color:white; 
+            padding:8px 14px; border-radius:8px; 
+            cursor:pointer; font-weight:500; 
+            font-family:Arial, sans-serif; 
+            box-shadow:0 2px 6px rgba(0,0,0,0.15); 
+            transition:background 0.3s;">
+  <span style="font-size:18px;">🚪</span>
+  <span>Logout</span>
+</div>
+  <div class="container">
+    
+    <h1>Sistem Tracking Paket</h1>
+
+    <div class="search-box">
+      <input type="text" id="nomorDOInput" placeholder="Masukkan Nomor DO (contoh: 2023001234)">
+      <button onclick="cariTracking()">Lacak</button>
+    </div>
+
+    <div id="hasilTracking" class="result-box"></div>
+  </div>
+  <div class="loop-wrapper">
+  <div class="mountain"></div>
+  <div class="hill"></div>
+  <div class="tree"></div>
+  <div class="tree"></div>
+  <div class="tree"></div>
+  <div class="rock"></div>
+  <div class="truck"></div>
+  <div class="wheels"></div>
+</div> 
+
+
+</div>
+
+<script src="js/script.js"></script>
+<script src="js/data.js"></script>
+<script src="js/tracking.js"></script>
+</body>
+</html>

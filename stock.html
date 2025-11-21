@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Stok Bahan Ajar</title>
+  <link rel="stylesheet" href="css/stock.css">
+  <script src="https://kit.fontawesome.com/a2e0adf1f2.js" crossorigin="anonymous"></script>
+</head>
+<body>
+<div id="app">  <!-- Vue root -->
+
+  <div id="homeBtn" 
+     style="display:inline-flex; align-items:center; gap:6px; 
+            background-color:darkblue; color:white; 
+            padding:8px 14px; border-radius:8px; 
+            cursor:pointer; font-weight:500; 
+            font-family:Arial, sans-serif; 
+            box-shadow:0 2px 6px rgba(0,0,0,0.15); 
+            transition:background 0.3s; margin-right:10px;">
+  <span style="font-size:18px;">🏠</span>
+  <span>Home</span>
+</div>
+
+<div id="logoutBtn" 
+     style="display:inline-flex; align-items:center; gap:6px; 
+            background-color:darkred; color:white; 
+            padding:8px 14px; border-radius:8px; 
+            cursor:pointer; font-weight:500; 
+            font-family:Arial, sans-serif; 
+            box-shadow:0 2px 6px rgba(0,0,0,0.15); 
+            transition:background 0.3s;">
+  <span style="font-size:18px;">🚪</span>
+  <span>Logout</span>
+</div>
+
+  <h1>📚 Stok Bahan Ajar</h1>
+  
+
+  <!-- FORM TAMBAH -->
+  <div class="form-container">
+    <input type="text" v-model="form.kodeLokasi" placeholder="Kode Lokasi">
+    <input type="text" v-model="form.kodeBarang" placeholder="Kode Barang">
+    <input type="text" v-model="form.namaBarang" placeholder="Nama Barang">
+    <input type="text" v-model="form.jenisBarang" placeholder="Jenis Barang (BMP, Modul, dll)">
+    <input type="number" v-model="form.edisi" placeholder="Edisi">
+    <input type="number" v-model="form.stok" placeholder="Stok">
+    <input type="text" v-model="form.cover" placeholder="URL Gambar (opsional)">
+    <button @click="tambahData">Tambah Data</button>
+  </div>
+
+  <div id="container" class="container"></div>
+
+  <div id="bahanAjarContainer" class="wrapper"></div>
+
+    <!-- TABLE LIST -->
+<table class="table-stock">
+    <thead>
+      <tr>
+        <th>Kode Lokasi</th>
+        <th>Kode Barang</th>
+        <th>Nama Barang</th>
+        <th>Jenis</th>
+        <th>Edisi</th>
+        <th>Stok</th>
+        <th>Status</th>
+        <th>Aksi</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr v-for="(item, index) in dataStok"  :key="item.kode">>
+  <td>{{ item.upbjj }}</td>
+  <td>{{ item.kode }}</td>
+  <td>{{ item.judul }}</td>
+  <td>{{ item.kategori }}</td>
+  <td>{{ item.lokasiRak }}</td>
+  <td>{{ item.qty }}</td>
+        <td>
+          <span :style="{ color: item.stok == 0 ? 'red' : item.stok < 10 ? 'orange' : 'green' }">
+  {{ item.stok == 0 ? 'Kosong' : item.stok < 10 ? 'Menipis' : 'Aman' }}
+</span>
+        </td>
+        <td><button @click="hapusData(index)">Hapus</button></td>
+      </tr>
+    </tbody>
+  </table>
+
+</div> <!-- END APP -->
+
+<script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+<script src="js/dataBahanAjar.js"></script>
+<script src="js/stock.js"></script>
+
+</body>
+</html>
