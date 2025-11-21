@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dashboard APLIKASI SITTA</title>
+  <link rel="stylesheet" href="css/dashboard.css" />
+</head>
+
+<body data-theme="pink" data-mode="light">
+
+  <div class="container">
+    <!-- ====================== SIDEBAR ====================== -->
+    <nav class="sidebar" id="sidebar" role="navigation" aria-label="Main navigation">
+      <ul class="nav-menu" role="menubar">
+        <li class="nav-item" role="none">
+          <a href="#" class="nav-link active" role="menuitem" aria-current="page">
+            <span class="nav-icon" aria-hidden="true">🏠</span> Dashboard
+          </a>
+        </li>
+
+        <li class="nav-item" role="none">
+          <a href="stock.html" class="nav-link" role="menuitem">
+            <span class="nav-icon" aria-hidden="true">📚</span> Informasi Bahan Ajar
+          </a>
+        </li>
+
+        <li class="nav-item" role="none">
+          <a href="tracking.html" class="nav-link" role="menuitem">
+            <span class="nav-icon" aria-hidden="true">🚚 </span> Tracking Pengiriman
+          </a>
+        </li>
+
+        <li class="nav-item dropdown" role="none">
+          <a href="WIP.html" class="nav-link" role="menuitem">
+            <span class="nav-icon" aria-hidden="true">📊</span> Laporan
+          </a>
+          <ul class="dropdown-menu" role="menu">
+            <li role="none">
+              <a href="WIP.html" class="dropdown-item" role="menuitem">Monitoring Progres DO Bahan Ajar</a>
+            </li>
+            <li role="none">
+              <a href="WIP.html" class="dropdown-item" role="menuitem">Rekap Bahan Ajar</a>
+            </li>
+          </ul>
+        </li>
+
+        <li class="nav-item" role="none">
+          <a href="WIP.html" class="nav-link" role="menuitem">
+            <span class="nav-icon" aria-hidden="true">📜</span> Histori Transaksi
+          </a>
+        </li>
+      </ul>
+
+      
+    </nav>
+
+    <!-- ====================== MAIN CONTENT ====================== -->
+    <main class="main-content" role="main">
+      <header class="header" role="banner">
+        <button class="mobile-menu-toggle" onclick="toggleSidebar()" aria-label="Toggle navigation menu">☰</button>
+
+            <img id="userAvatar" src="assets/img/logo ut.png" alt="User Avatar" 
+     style="width:90px; height:90px; border-radius:50%;
+            object-fit:cover; margin-right:10px;
+            box-shadow:0 2px 4px rgba(0,0,0,0.15);">
+
+        <div class="header-brand">
+          <h1 class="brand-title">SITTA</h1>
+          <p class="brand-subtitle">SISTEM INFORMASI TRACKING BAHAN AJAR</p>
+        </div>
+
+        <div class="search-bar">
+          <span class="search-icon" aria-hidden="true">🔍</span>
+          <input type="text" class="search-input" placeholder="What are you looking for?" aria-label="Search" />
+        </div>
+
+        <div class="header-actions">
+          <!-- 🎨 THEME SELECTOR -->
+          <div class="theme-selector">
+            <button class="theme-toggle" onclick="toggleThemeDropdown()" id="themeToggle" aria-label="Theme settings" aria-expanded="false" aria-haspopup="true">🎨</button>
+            <div class="theme-dropdown" id="themeDropdown" role="menu" aria-labelledby="themeToggle">
+              <div class="mode-toggle" role="group" aria-label="Display mode">
+                <button class="mode-btn active" onclick="setMode('light')" role="menuitem" aria-pressed="true">☀️ Light</button>
+                <button class="mode-btn" onclick="setMode('dark')" role="menuitem" aria-pressed="false">🌙 Dark</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- 👤 USER PROFILE -->
+          <div class="user-profile" tabindex="0" role="button" aria-label="User profile">
+            <img id="userAvatar" src="assets/img/logo ut.png" alt="User Avatar" 
+     style="width:40px; height:40px; border-radius:50%;
+            object-fit:cover; margin-right:10px;
+            box-shadow:0 2px 4px rgba(0,0,0,0.15);">
+            <div class="user-info">
+              <h3 id="userName">Guest</h3>
+              <p id="userRole">Role</p>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <!-- ====================== MODE TABS ====================== -->
+      <div class="mode-tabs" role="tablist" aria-label="Workspace modes">
+        <button class="mode-tab active" onclick="switchMode('dashboard')" role="tab" aria-selected="true" id="dashboard-tab">🏠 Dashboard</button>
+        <button class="mode-tab" onclick="switchMode('focus')" role="tab" aria-selected="false" id="focus-tab">🚚  Tracking Pengiriman</button>
+        <button class="mode-tab" onclick="switchMode('learning')" role="tab" aria-selected="false" id="learning-tab">📚 Stok Bahan Ajar</button>
+        <button class="mode-tab" onclick="switchMode('play')" role="tab" aria-selected="false" id="play-tab">📜 Histori Transaksi</button>
+        <div id="logoutBtn" 
+     style="display:inline-flex; align-items:center; gap:6px; 
+            background-color:darkred; color:white; 
+            padding:8px 14px; border-radius:8px; 
+            cursor:pointer; font-weight:500; 
+            font-family:Arial, sans-serif; 
+            box-shadow:0 2px 6px rgba(0,0,0,0.15); 
+            transition:background 0.3s;">
+  <span style="font-size:18px;">🚪</span>
+  <span>Logout</span>
+</div>
+      </div>
+
+      <!-- ====================== DASHBOARD MODE ====================== -->
+      <div class="dashboard">
+        <div class="mode-content active" id="dashboard-mode" role="tabpanel" aria-labelledby="dashboard-tab">
+          <section class="welcome-section fade-in" aria-labelledby="welcome-title">
+            <div class="welcome-content">
+              <h1 class="welcome-title" id="welcome-title">
+                Good morning, <span id="userWelcomeName">Guest</span>! ✨
+              </h1>
+              <p class="welcome-subtitle">Ready to check something today?</p>
+              <p class="welcome-time" id="currentDateTime" aria-live="polite"></p>
+            </div>
+          </section>
+
+          <div class="widget-grid">
+            <section class="widget slide-in" aria-labelledby="quick-actions-title">
+              <div class="widget-header">
+                <h2 class="widget-title" id="quick-actions-title">
+                  <span class="widget-icon" aria-hidden="true">⚡</span> lorem ipsum
+                </h2>
+              </div>
+              <div class="quick-actions">
+                <a href="#" class="action-btn" aria-label="Create new project">
+                  <span class="action-icon" aria-hidden="true">💻</span>
+                  <span>Lorem ipsum</span>
+                </a>
+              </div>
+            </section>
+
+            <section class="widget slide-in" aria-labelledby="productive-employee-title">
+              <div class="widget-header">
+                <h2 class="widget-title" id="productive-employee-title">
+                  <span class="widget-icon" aria-hidden="true">🏆</span> Lorem Ipsum
+                </h2>
+              </div>
+              <div class="team-member" style="background: var(--gradient-light); border: 2px solid var(--primary);">
+                <div class="member-info">
+                  <h4>LOREM IPSUM</h4>
+                  <p>LOREM IPSUM</p>
+                  <p style="color: var(--primary); font-weight: 600; margin-top: 0.5rem;">LOREEEEEEMMM IPSUM</p>
+                </div>
+              </div>
+            </section>
+
+            <section class="widget slide-in" aria-labelledby="weather-title">
+              <div class="widget-header">
+                <h2 class="widget-title" id="weather-title">
+                  <span class="widget-icon" aria-hidden="true">🌤️</span> Today's Weather
+                </h2>
+              </div>
+              <div style="text-align: center;">
+                <div style="font-size: 4rem; margin-bottom: 1rem;" aria-hidden="true">☀️</div>
+                <h3 style="font-size: 2rem; margin-bottom: 0.5rem;">75°F</h3>
+                <p style="color: var(--text-secondary); margin-bottom: 1rem;">Perfect Day!!</p>
+              </div>
+            </section>
+          </div>
+        </div>
+
+        <!-- ====================== OTHER MODES ====================== -->
+
+        <!-- Tracking Pengiriman -->
+<div class="mode-content" id="focus-mode" role="tabpanel" aria-labelledby="focus-tab">
+  <section class="content-section fade-in">
+    <h2>🚚 Tracking Pengiriman</h2>
+    <p>Di sini akan tampil data status pengiriman bahan ajar Anda.</p>
+    <div class="tracking-box">
+      <p><strong>Silahkan Tuliskan Nomor Deliveri Pengiriman anda dalam kotak</strong></p>
+    <iframe 
+    src="tracking.html" 
+    title="Mini Tracking"
+    width="100%"
+    height="400"
+    style="border: none; border-radius: 12px; box-shadow: 0 0 10px rgba(0,0,0,0.1);">
+  </iframe>
+    </div>
+  </section>
+</div>
+
+<!-- Stok Bahan Ajar -->
+<div class="mode-content" id="learning-mode" role="tabpanel" aria-labelledby="learning-tab">
+  <section class="content-section fade-in">
+    <h2>📚 Stok Bahan Ajar</h2>
+    <p>Informasi stok bahan ajar akan muncul di sini.</p>
+    <iframe 
+    src="stock.html" 
+    title="Mini List Stock Bahan Ajar"
+    width="100%"
+    height="400"
+    style="border: none; border-radius: 12px; box-shadow: 0 0 10px rgba(0,0,0,0.1);">
+  </iframe>
+  </section>
+</div>
+
+<!-- Histori Transaksi -->
+<div class="mode-content" id="play-mode" role="tabpanel" aria-labelledby="play-tab">
+  <section class="content-section fade-in">
+    <h2>📜 Histori Transaksi</h2>
+    <p>Catatan aktivitas transaksi Anda akan tampil di sini.</p>
+    <iframe 
+    src="WIP.html" 
+    title="Mini List Stock Bahan Ajar"
+    width="100%"
+    height="400"
+    style="border: none; border-radius: 12px; box-shadow: 0 0 10px rgba(0,0,0,0.1);">
+  </iframe>
+  </section>
+</div>
+
+      </div>
+    </main>
+  </div>
+
+  <!-- ====================== FOOTER ====================== -->
+  <footer class="footer" role="contentinfo">
+    <p>
+      Built by
+      <a href="https://www.linkedin.com/in/mardhika-wulansari-77334a195/?trk=opento_sprofile_topcard">Mardhika Wulansari</a>
+      NIM : 044827134
+    </p>
+  </footer>
+
+  <!-- ====================== SCRIPTS ====================== -->
+
+  <script src="js/script.js"></script>
+  <script src="js/data.js"></script>
+  <script src="js/index.js"></script>
+</body>
+</html>

@@ -35,18 +35,60 @@
 </div>
 
   <h1>📚 Stok Bahan Ajar</h1>
-  
+    
+<div class="filter-section">
+
+  <div class="filter-item">
+    <label>UT-Daerah</label>
+    <select v-model="filterDaerah">
+      <option value="">Semua</option>
+      <option v-for="d in upbjjList" :key="d" :value="d">{{ d }}</option>
+    </select>
+  </div>
+
+  <div class="filter-item" v-if="filterDaerah">
+    <label>Kategori</label>
+    <select v-model="filterKategori">
+      <option value="">Semua</option>
+      <option v-for="k in kategoriList" :key="k">{{ k }}</option>
+    </select>
+  </div>
+
+  <div class="filter-item">
+    <label>Status Stok</label>
+    <select v-model="filterStock">
+      <option value="">Semua</option>
+      <option value="low">Menipis (qty < safety)</option>
+      <option value="zero">Kosong (qty = 0)</option>
+    </select>
+  </div>
+
+  <div class="filter-item">
+    <label>Sort</label>
+    <select v-model="sortBy">
+      <option value="">Default</option>
+      <option value="judul">Judul</option>
+      <option value="stock">Stock</option>
+      <option value="harga">Harga</option>
+    </select>
+  </div>
+
+    <!-- Reset -->
+  <button @click="resetFilter">Reset Filter</button>
+
+</div>
 
   <!-- FORM TAMBAH -->
   <div class="form-container">
-    <input type="text" v-model="form.kodeLokasi" placeholder="Kode Lokasi">
-    <input type="text" v-model="form.kodeBarang" placeholder="Kode Barang">
-    <input type="text" v-model="form.namaBarang" placeholder="Nama Barang">
-    <input type="text" v-model="form.jenisBarang" placeholder="Jenis Barang (BMP, Modul, dll)">
-    <input type="number" v-model="form.edisi" placeholder="Edisi">
-    <input type="number" v-model="form.stok" placeholder="Stok">
-    <input type="text" v-model="form.cover" placeholder="URL Gambar (opsional)">
-    <button @click="tambahData">Tambah Data</button>
+<input type="text" v-model="form.upbjj" placeholder="UPBJJ">
+<input type="text" v-model="form.kode" placeholder="Kode Barang">
+<input type="text" v-model="form.judul" placeholder="Nama Barang">
+<input type="text" v-model="form.kategori" placeholder="Jenis Barang (BMP, Modul, dll)">
+<input type="text" v-model="form.lokasiRak" placeholder="Lokasi Rak">
+<input type="number" v-model="form.qty" placeholder="Qty">
+<input type="number" v-model="form.safety" placeholder="Safety Stock">
+<input type="text" v-model="form.catatanHTML" placeholder="Catatan (HTML opsional)">
+<button @click="tambahData">Tambah Data</button>
   </div>
 
   <div id="container" class="container"></div>
@@ -68,22 +110,77 @@
       </tr>
     </thead>
     <tbody>
-      <tr v-for="(item, index) in dataStok"  :key="item.kode">>
-  <td>{{ item.upbjj }}</td>
-  <td>{{ item.kode }}</td>
-  <td>{{ item.judul }}</td>
-  <td>{{ item.kategori }}</td>
+      <tr v-for="(item, index) in filteredItems" :key="item.kode">
+ <!-- Kode Lokasi -->
   <td>{{ item.lokasiRak }}</td>
+
+  <!-- Kode Barang -->
+  <td>{{ item.kode }}</td>
+
+  <!-- Nama Barang -->
+  <td>{{ item.judul }}</td>
+
+  <!-- Jenis -->
+  <td>{{ item.kategori }}</td>
+
+  <!-- Edisi -->
+  <td>{{ item.edisi || '-' }}</td>
+
+  <!-- Stok -->
   <td>{{ item.qty }}</td>
+
+  <!-- Status -->
+  <td>
+    <span :style="{ 
+      color: item.qty == 0 ? 'red' : item.qty < item.safety ? 'orange' : 'green' 
+    }">
+      {{ item.qty == 0 ? 'Kosong' : item.qty < item.safety ? 'Menipis' : 'Aman' }}
+    </span>
+  </td>
         <td>
-          <span :style="{ color: item.stok == 0 ? 'red' : item.stok < 10 ? 'orange' : 'green' }">
-  {{ item.stok == 0 ? 'Kosong' : item.stok < 10 ? 'Menipis' : 'Aman' }}
-</span>
+          <button class="btn-edit" @click="mulaiEdit(index)">Edit</button>
+          <button @click="hapusData(index)">Hapus</button>
         </td>
-        <td><button @click="hapusData(index)">Hapus</button></td>
       </tr>
     </tbody>
   </table>
+
+<div v-if="showEditModal" class="modal-overlay">
+  <div class="modal-box">
+
+    <div class="modal-header">Edit Data Stok</div>
+
+    <label>Kode</label>
+    <input v-model="editForm.kode" />
+
+    <label>Judul</label>
+    <input v-model="editForm.judul" />
+
+    <label>Kategori</label>
+    <input v-model="editForm.kategori" />
+
+    <label>UPBJJ</label>
+    <input v-model="editForm.upbjj" />
+
+    <label>Lokasi Rak</label>
+    <input v-model="editForm.lokasiRak" />
+
+    <label>Qty</label>
+    <input type="number" v-model="editForm.qty" />
+
+    <label>Safety</label>
+    <input type="number" v-model="editForm.safety" />
+
+    <label>Catatan</label>
+    <textarea v-model="editForm.catatanHTML"></textarea>
+
+    <div class="modal-actions">
+      <button class="modal-btn cancel" @click="batalEdit">Cancel</button>
+      <button class="modal-btn save" @click="simpanEdit">Simpan</button>
+    </div>
+
+  </div>
+</div>
 
 </div> <!-- END APP -->
 
