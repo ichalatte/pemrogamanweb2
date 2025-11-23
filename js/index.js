@@ -65,36 +65,32 @@ function updateGreeting() {
 // =========================
 function loadUserData() {
     // 🔹 Ambil data pengguna dari localStorage
+    function loadUserData() {
+    // 🔹 Ambil data pengguna dari localStorage
     const penggunaData = localStorage.getItem("penggunaLogin");
-    if (penggunaData) {
-        const pengguna = JSON.parse(penggunaData);
+    const pengguna = penggunaData ? JSON.parse(penggunaData) : null;
 
-        // 🔹 Masukkan ke elemen dashboard (nama, role, avatar)
-        const userName = document.getElementById("userName");
-        const userRole = document.getElementById("userRole");
-        const userAvatar = document.getElementById("userAvatar");
+    // 🔹 Masukkan ke elemen dashboard (nama, role, avatar) dengan default
+    const userName = document.getElementById("userName");
+    const userRole = document.getElementById("userRole");
+    const userAvatar = document.getElementById("userAvatar");
 
-        if (userName) userName.textContent = pengguna.nama;
-        if (userRole) userRole.textContent = pengguna.role;
-        if (userAvatar) userAvatar.textContent = pengguna.nama.charAt(0).toUpperCase();
+    if (userName) userName.textContent = pengguna?.nama || "Guest";
+    if (userRole) userRole.textContent = pengguna?.role || "Visitor";
+    if (userAvatar) userAvatar.textContent = pengguna?.nama?.charAt(0).toUpperCase() || "G";
 
-        // 🔹 Ganti sapaan di dashboard (biar <span> tetap ada)
-        const welcomeTitle = document.querySelector(".welcome-title");
-        if (welcomeTitle) {
-            const hours = new Date().getHours();
-            const greeting =
-                hours < 12 ? "Good morning" :
-                hours < 18 ? "Good afternoon" :
-                "Good evening";
+    // 🔹 Ganti sapaan di dashboard (biar <span> tetap ada)
+    const welcomeTitle = document.querySelector(".welcome-title");
+    if (welcomeTitle) {
+        const hours = new Date().getHours();
+        const greeting =
+            hours < 12 ? "Good morning" :
+            hours < 18 ? "Good afternoon" :
+            "Good evening";
 
-            welcomeTitle.innerHTML = `${greeting}, <span id="userWelcomeName">${pengguna.nama}</span>! ✨`;
-        }
-    } 
-    else {
-        alert("Silakan login terlebih dahulu.");
-        window.location.href = "login.html";
-        return; // Stop lanjutkan proses kalau belum login
+        welcomeTitle.innerHTML = `${greeting}, <span id="userWelcomeName">${pengguna?.nama || "Guest"}</span>! ✨`;
     }
+}
 }
 
 // =========================

@@ -10,31 +10,12 @@
 <body>
 <div id="app">  <!-- Vue root -->
 
-  <div id="homeBtn" 
-     style="display:inline-flex; align-items:center; gap:6px; 
-            background-color:darkblue; color:white; 
-            padding:8px 14px; border-radius:8px; 
-            cursor:pointer; font-weight:500; 
-            font-family:Arial, sans-serif; 
-            box-shadow:0 2px 6px rgba(0,0,0,0.15); 
-            transition:background 0.3s; margin-right:10px;">
-  <span style="font-size:18px;">🏠</span>
-  <span>Home</span>
-</div>
-
-<div id="logoutBtn" 
-     style="display:inline-flex; align-items:center; gap:6px; 
-            background-color:darkred; color:white; 
-            padding:8px 14px; border-radius:8px; 
-            cursor:pointer; font-weight:500; 
-            font-family:Arial, sans-serif; 
-            box-shadow:0 2px 6px rgba(0,0,0,0.15); 
-            transition:background 0.3s;">
-  <span style="font-size:18px;">🚪</span>
-  <span>Logout</span>
-</div>
-
-  <h1>📚 Stok Bahan Ajar</h1>
+<header class="topbar">
+  <div class="brand"><h2>📚 Stok Bahan Ajar</h2></div>
+      <div class="actions">
+        <button class="btn-home" @click="goHome">Home</button>
+      </div>
+    </header>
     
 <div class="filter-section">
 
@@ -139,7 +120,7 @@
   </td>
         <td>
           <button class="btn-edit" @click="mulaiEdit(index)">Edit</button>
-          <button @click="hapusData(index)">Hapus</button>
+          <button @click="mintaKonfirmasiHapus(index)">Hapus</button>
         </td>
       </tr>
     </tbody>
@@ -180,6 +161,19 @@
     </div>
 
   </div>
+</div>
+
+<div v-if="confirmModal.show" class="modal-overlay">
+  <div class="modal-content">
+    <p>{{ confirmModal.message }}</p>
+    <button @click="konfirmasiHapus">Ya, Hapus</button>
+    <button @click="batalHapus">Batal</button>
+  </div>
+</div>
+
+<!-- TOAST NOTIFICATION -->
+<div v-if="toast.show" class="toast-box">
+  {{ toast.message }}
 </div>
 
 </div> <!-- END APP -->

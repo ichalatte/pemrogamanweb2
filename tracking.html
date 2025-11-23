@@ -1,48 +1,159 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Sistem Tracking Paket</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Tracking Delivery Order — Vue</title>
   <link rel="stylesheet" href="css/tracking.css">
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap">
+  <script src="https://unpkg.com/vue@3/dist/vue.global.prod.js"></script>
 </head>
 <body>
-<div class="container">
-    <div id="homeBtn" 
-     style="display:inline-flex; align-items:center; gap:6px; 
-            background-color:darkblue; color:white; 
-            padding:8px 14px; border-radius:8px; 
-            cursor:pointer; font-weight:500; 
-            font-family:Arial, sans-serif; 
-            box-shadow:0 2px 6px rgba(0,0,0,0.15); 
-            transition:background 0.3s; margin-right:10px;">
-  <span style="font-size:18px;">🏠</span>
-  <span>Home</span>
-</div>
+  <div id="app" class="page">
+    <header class="topbar">
+      <div class="brand">📦 SITTA — Tracking DO</div>
+      <div class="actions">
+        <button class="btn-home" @click="goHome">Home</button>
+      </div>
+    </header>
 
-<div id="logoutBtn" 
-     style="display:inline-flex; align-items:center; gap:6px; 
-            background-color:darkred; color:white; 
-            padding:8px 14px; border-radius:8px; 
-            cursor:pointer; font-weight:500; 
-            font-family:Arial, sans-serif; 
-            box-shadow:0 2px 6px rgba(0,0,0,0.15); 
-            transition:background 0.3s;">
-  <span style="font-size:18px;">🚪</span>
-  <span>Logout</span>
-</div>
-  <div class="container">
-    
-    <h1>Sistem Tracking Paket</h1>
+    <!-- TOAST -->
+    <div v-if="toast.show" :class="['toast', toast.type]">{{ toast.message }}</div>
 
-    <div class="search-box">
-      <input type="text" id="nomorDOInput" placeholder="Masukkan Nomor DO (contoh: 2023001234)">
-      <button onclick="cariTracking()">Lacak</button>
-    </div>
+    <main class="content">
+      <section class="left">
+        <div class="card">
+          <h2>Tambah Delivery Order</h2>
 
-    <div id="hasilTracking" class="result-box"></div>
-  </div>
+          <label>Nomor DO</label>
+          <input type="text" :value="generatedDO" readonly class="readonly"/>
+
+          <label>NIM</label>
+          <input v-model="form.nim" placeholder="NIM" />
+
+          <label>Nama</label>
+          <input v-model="form.nama" placeholder="Nama penerima" />
+
+          <label>UPBJJ</label>
+          <select v-model="form.upbjj">
+            <option value="">Pilih UPBJJ</option>
+            <option v-for="u in upbjjList" :key="u" :value="u">{{ u }}</option>
+          </select>
+
+          <label>Ekspedisi</label>
+          <select v-model="form.ekspedisi">
+            <option value="">Pilih Ekspedisi</option>
+            <option v-for="e in ekspedisiList" :key="e">{{ e }}</option>
+          </select>
+
+          <label>Paket Bahan Ajar</label>
+          <select v-model="form.paketKode">
+            <option value="">Pilih Paket</option>
+            <option v-for="p in paketList" :key="p.kode" :value="p.kode">
+              {{ p.kode }} — {{ p.nama }}
+            </option>
+          </select>
+
+          <div v-if="selectedPaket" class="paket-detail">
+            <strong>Isi Paket:</strong>
+            <ul><li v-for="(x,i) in selectedPaket.isi" :key="i">{{ x }}</li></ul>
+            <div><strong>Harga:</strong> {{ formatRupiah(selectedPaket.harga) }}</div>
+          </div>
+
+          <label>Tanggal Kirim</label>
+          <div class="row-inline">
+            <input type="date" v-model="form.tanggalKirim" />
+            <button class="btn" @click="setToday">Hari Ini</button>
+          </div>
+
+          <label>Total Harga</label>
+          <input type="text" :value="displayHarga" readonly class="readonly" />
+
+          <div class="form-actions">
+            <button class="btn primary" @click="tambahDO">Tambah DO</button>
+            <button class="btn muted" @click="resetForm">Reset</button>
+          </div>
+        </div>
+      </section>
+
+      <section class="right">
+        <div class="card">
+          <h2>Daftar & Lacak DO</h2>
+
+          <div class="filters">
+            <input v-model="search" placeholder="Cari nomor DO / nama / NIM" />
+            <select v-model="filterUpbjj"><option value="">Semua UPBJJ</option>
+              <option v-for="u in upbjjList" :key="u" :value="u">{{ u }}</option>
+            </select>
+            <select v-model="filterStatus">
+              <option value="">Semua Status</option>
+              <option value="Diproses">Diproses</option>
+              <option value="Dikirim">Dikirim</option>
+              <option value="Diterima">Diterima</option>
+            </select>
+            <select v-model="sortBy">
+              <option value="">Sort default</option>
+              <option value="nomor">Nomor DO</option>
+              <option value="tanggal">Tanggal Kirim</option>
+              <option value="harga">Harga</option>
+            </select>
+            <button class="btn" @click="resetFilter">Reset</button>
+          </div>
+
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Nomor</th><th>NIM</th><th>Nama</th><th>Ekspedisi</th>
+                <th>Paket</th><th>Tgl Kirim</th><th>Harga</th><th>Status</th><th>Aksi</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="(d,i) in displayedDOs" :key="d.nomor" @click="openDetail(d)">
+                <td>{{ d.nomor }}</td>
+                <td>{{ d.nim }}</td>
+                <td>{{ d.nama }}</td>
+                <td>{{ d.ekspedisi }}</td>
+                <td>{{ d.paketKode }} — {{ d.paketNama }}</td>
+                <td>{{ d.tanggalKirim }}</td>
+                <td>{{ formatRupiah(d.totalHarga) }}</td>
+                <td><span :class="'status '+statusClass(d.status)">{{ d.status }}</span></td>
+                <td>
+                  <button class="btn small" @click.stop="nextStatus(i)">Next</button>
+                  <button class="btn small danger" @click.stop="hapusDO(i)">Hapus</button>
+                </td>
+              </tr>
+              <tr v-if="displayedDOs.length===0"><td colspan="9" style="text-align:center">Tidak ada data</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- DETAIL / TIMELINE MODAL -->
+        <div v-if="detailOpen" class="modal-overlay" @click.self="closeDetail">
+          <div class="modal">
+            <h3>Detail DO — {{ detail.nomor }}</h3>
+            <p><strong>NIM:</strong> {{ detail.nim }} — <strong>Nama:</strong> {{ detail.nama }}</p>
+            <p><strong>UPBJJ:</strong> {{ detail.upbjj }}</p>
+            <p><strong>Ekspedisi:</strong> {{ detail.ekspedisi }}</p>
+            <p><strong>Tanggal Kirim:</strong> {{ detail.tanggalKirim }}</p>
+            <p><strong>Total:</strong> {{ formatRupiah(detail.totalHarga) }}</p>
+            <p><strong>Status:</strong> {{ detail.status }}</p>
+
+            <h4>Timeline</h4>
+            <div class="timeline">
+              <div class="tl-item" v-for="(t, idx) in detail.perjalanan || defaultPerjalanan(detail)" :key="idx">
+                <div class="time">{{ t.waktu }}</div>
+                <div class="note">{{ t.keterangan }}</div>
+              </div>
+            </div>
+
+            <div class="modal-actions">
+              <button class="btn" @click="closeDetail">Tutup</button>
+            </div>
+          </div>
+        </div>
+
+      </section>
+    </main>
+
   <div class="loop-wrapper">
   <div class="mountain"></div>
   <div class="hill"></div>
@@ -52,13 +163,10 @@
   <div class="rock"></div>
   <div class="truck"></div>
   <div class="wheels"></div>
-</div> 
+    
+  </div>
 
-
-</div>
-
-<script src="js/script.js"></script>
-<script src="js/data.js"></script>
-<script src="js/tracking.js"></script>
+  <script src="js/dataBahanAjar.js"></script>
+  <script src="js/tracking.js"></script>
 </body>
 </html>

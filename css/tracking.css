@@ -1,101 +1,311 @@
+/* ======== GLOBAL ======== */
 body {
   font-family: 'Inter', sans-serif;
   background-color: #f4f6f8;
   margin: 0;
   padding: 0;
+  color: #333;
 }
 
-.container {
-  max-width: 700px;
-  margin: 50px auto;
+.page {
+  max-width: 1200px;
+  margin: 40px auto;
+  padding: 0 16px;
+}
+
+/* ======== TOP BAR ======== */
+.topbar {
   background: white;
-  padding: 30px;
+  padding: 14px 24px;
+  border-radius: 12px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.06);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 25px;
+}
+
+.brand {
+  font-weight: 700;
+  font-size: 20px;
+  color: #2b4eff;
+}
+
+.btn-home {
+  background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+  color: #fff;
+  border: none;
+  padding: 12px 28px;
+  font-size: 16px;
+  font-weight: 600;
+  border-radius: 12px;
+  cursor: pointer;
+  box-shadow: 0 6px 15px rgba(37, 117, 252, 0.3);
+  transition: all 0.3s ease;
+}
+
+.btn-home:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 20px rgba(37, 117, 252, 0.4);
+  background: linear-gradient(135deg, #2575fc 0%, #6a11cb 100%);
+}
+
+.btn-home:active {
+  transform: translateY(1px);
+  box-shadow: 0 4px 10px rgba(37, 117, 252, 0.3);
+}
+
+.btn {
+  padding: 8px 14px;
+  border: none;
+  background: #2b4eff;
+  color: white;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.btn:hover {
+  opacity: 0.85;
+}
+
+.btn.danger {
+  background: #e63946;
+}
+
+.btn.muted {
+  background: #e5e7eb;
+  color: #333;
+}
+
+.btn.primary {
+  background: #2b4eff;
+}
+
+/* ======== LAYOUT ======== */
+.content {
+  display: flex;
+  gap: 24px;
+}
+
+.left {
+  flex: 0 0 360px;
+}
+
+.right {
+  flex: 1;
+}
+
+/* ======== CARD ======== */
+.card {
+  background: white;
+  padding: 24px;
   border-radius: 12px;
   box-shadow: 0 2px 10px rgba(0,0,0,0.1);
 }
 
-h1 {
-  text-align: center;
-  color: #333;
+/* ======== FORM ======== */
+.card h2 {
+  font-size: 20px;
+  margin-bottom: 18px;
+  color: #2b4eff;
 }
 
-.search-box {
-  display: flex;
-  justify-content: center;
-  gap: 10px;
-  margin-bottom: 30px;
+label {
+  font-weight: 600;
+  margin-top: 12px;
+  display: block;
+  font-size: 14px;
 }
 
-input {
-  flex: 1;
+input, select {
+  width: 100%;
   padding: 10px;
-  border-radius: 6px;
-  border: 1px solid #ccc;
+  border-radius: 8px;
+  border: 1px solid #d1d5db;
+  margin: 6px 0 12px;
+  font-size: 14px;
 }
 
-button {
-  background-color: #0078d7;
-  color: white;
-  border: none;
-  padding: 10px 20px;
-  border-radius: 6px;
+input.readonly {
+  background: #f0f2f5;
+}
+
+.row-inline {
+  display: flex;
+  gap: 10px;
+}
+
+.form-actions {
+  margin-top: 10px;
+  display: flex;
+  gap: 10px;
+}
+
+.paket-detail {
+  background: #f9fafb;
+  padding: 12px;
+  border-radius: 10px;
+  border: 1px solid #e5e7eb;
+  margin-bottom: 10px;
+}
+
+/* ======== FILTER & TABLE ======== */
+.filters {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 16px;
+}
+
+.filters input,
+.filters select {
+  flex: 1;
+  min-width: 140px;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+
+.table th, .table td {
+  padding: 10px;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.table tr:hover {
+  background: #f9fafc;
   cursor: pointer;
 }
 
-button:hover {
-  background-color: #005ea3;
-}
-
-.result-box {
-  border-top: 2px solid #0078d7;
-  padding-top: 20px;
-}
-
-/* === Timeline Style === */
-.timeline {
-  position: relative;
-  margin-left: 20px;
-  border-left: 2px solid #0078d7;
-  padding-left: 20px;
-}
-
-.timeline-item {
-  position: relative;
-  margin-bottom: 25px;
-}
-
-.timeline-item::before {
-  content: "";
-  position: absolute;
-  left: -11px;
-  top: 4px;
-  width: 12px;
-  height: 12px;
-  background-color: #0078d7;
-  border-radius: 50%;
-  border: 2px solid #fff;
-  box-shadow: 0 0 0 2px #0078d7;
-}
-
-.timeline-time {
-  font-size: 13px;
-  color: #666;
-  margin-left: 20px;
-}
-
-.timeline-text {
-  background: #f9f9f9;
-  padding: 10px 15px;
+.status {
+  padding: 4px 8px;
   border-radius: 6px;
-  margin-top: 5px;
-  line-height: 1.4;
+  font-size: 12px;
+  color: white;
 }
+
+.status.diproses {
+  background: #6b7280;
+}
+
+.status.dikirim {
+  background: #f59e0b;
+}
+
+.status.diterima {
+  background: #10b981;
+}
+
+/* ======== TOAST ======== */
+.toast {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  padding: 14px 18px;
+  background: #2b4eff;
+  color: white;
+  border-radius: 10px;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.15);
+  z-index: 9999;
+}
+
+.toast.info {
+  background: #2b4eff;
+}
+
+.toast.success {
+  background: #10b981;
+}
+
+.toast.warn {
+  background: #f59e0b;
+}
+
+/* ======== MODAL ======== */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.35);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9998;
+}
+
+.modal {
+  background: white;
+  padding: 24px;
+  width: 90%;
+  max-width: 600px;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+}
+
+.modal h3 {
+  margin-top: 0;
+  color: #2b4eff;
+}
+
+.modal-actions {
+  margin-top: 20px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+/* ======== MODAL KONFIRMASI ======== */
+.confirm-overlay {
+  position: fixed !important;
+  inset: 0 !important;
+  background: rgba(0,0,0,0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 20000 !important;
+}
+
+.confirm-modal {
+  background: white;
+  padding: 20px;
+  width: 320px;
+  border-radius: 10px;
+  text-align: center;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+}
+
+.confirm-modal button {
+  margin: 8px;
+}
+
+
+.timeline {
+  margin-top: 10px;
+  border-left: 2px solid #d1d5db;
+  padding-left: 12px;
+}
+
+.tl-item {
+  margin-bottom: 10px;
+}
+
+.tl-item .time {
+  font-size: 13px;
+  font-weight: 600;
+  color: #6b7280;
+}
+
+.tl-item .note {
+  font-size: 14px;
+}
+
 
 .loop-wrapper {
   margin: 0 auto;
   position: relative;
   display: block;
-  width: 600px;
+  width: auto;
   height: 250px;
   overflow: hidden;
   border-bottom: 3px solid #000;
