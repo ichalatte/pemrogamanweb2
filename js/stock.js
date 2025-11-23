@@ -237,7 +237,6 @@ watch: {
     this.showToast(`❌ Penghapusan dibatalkan`);
   },
 
-
   }
 
   }).mount("#app");
