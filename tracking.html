@@ -118,6 +118,8 @@
                 <td><span :class="'status '+statusClass(d.status)">{{ d.status }}</span></td>
                 <td>
                   <button class="btn small" @click.stop="nextStatus(i)">Next</button>
+                </td>
+                  <td>
                   <button class="btn small danger" @click.stop="hapusDO(i)">Hapus</button>
                 </td>
               </tr>
